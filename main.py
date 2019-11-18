@@ -4,16 +4,19 @@ from models import User, db
 app = Flask(__name__)
 db.create_all() # create (new) tables in the database
 
+# Reading from a database
 @app.route("/")
 def index():
     email_address = request.cookies.get("email")
+
+    # get user from the database based on email address
     user = db.query(User).filter_by(email=email_address).first()
 
     users = db.query(User)
     print(users)
     return render_template("index.html", user=user, users=users)
 
-
+# post info
 @app.route("/login", methods=["POST"])
 def login():
     name = request.form.get("user-name")
@@ -26,7 +29,7 @@ def login():
     db.add(user)
     db.commit()
 
-
+    # save user's email into a cookie
     response = make_response(redirect(url_for('index')))
     response.set_cookie("email", email)
 
