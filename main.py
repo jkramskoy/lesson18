@@ -1,3 +1,5 @@
+# DATABASE PROJECT
+
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from models import User, db
 
